@@ -1,1 +1,375 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <!-- VIEWPORT: mobil zoom butunlay o'chirildi -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Talabalar Karvoni | NamDU Ijodkorlari</title>
+    <!-- SEO meta -->
+    <meta name="description" content="Namangan Davlat Universiteti iqtidorli talabalarining elektron kutubxonasi. She'riy to'plamlar, PDF nashrlar va ijodiy ishlar.">
+    <meta name="keywords" content="NamDU, talabalar, ijod, she'r, nashr, kutubxona, pdf, o'qish, Namangan">
+    <meta name="author" content="NamDU Ijodkorlari">
+    <meta name="theme-color" content="#f72585">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Talabalar Karvoni">
+    <meta property="og:description" content="Namangan Davlat Universiteti iqtidorli talabalarining elektron kutubxonasi">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="logo.png"> <!-- Haqiqiy rasm bilan almashtiring -->
+    <meta property="og:url" content="https://talabalar-karvoni.uz">
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='%23f72585'>📚</text></svg>">
+    <link rel="apple-touch-icon" href="icon-192.png">
 
+    <!-- Shriftlar -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&family=Outfit:wght@400..900&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* ========== GLOBAL ========== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-deep: #03030a;
+            --bg-card: rgba(12, 12, 22, 0.8);
+            --accent-primary: #f72585;
+            --accent-secondary: #b5179e;
+            --accent-tertiary: #7209b7;
+            --gradient-brand: linear-gradient(135deg, #f72585, #b5179e, #7209b7);
+            --text-main: #fff;
+            --text-muted: #a0a0b0;
+            --text-dim: #6c757d;
+            --border-light: rgba(255,255,255,0.08);
+            --font-main: 'Inter', sans-serif;
+            --font-display: 'Outfit', sans-serif;
+            --transition-smooth: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            --header-height: 80px;
+            --header-scrolled-height: 65px;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-deep);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020205; }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--accent-tertiary), var(--accent-primary));
+            border-radius: 4px;
+        }
+        /* Background */
+        .background {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3;
+            background: radial-gradient(circle at 20% 30%, rgba(114,9,183,0.25) 0%, transparent 35%),
+                        radial-gradient(circle at 90% 70%, rgba(247,37,133,0.2) 0%, transparent 40%),
+                        radial-gradient(circle at 40% 80%, rgba(67,97,238,0.15) 0%, transparent 45%),
+                        linear-gradient(145deg, #070714 0%, #120b1a 100%);
+            animation: breathe 12s infinite alternate ease-in-out;
+        }
+        @keyframes breathe { 0% { opacity: 0.8; transform: scale(1); } 100% { opacity: 1; transform: scale(1.02); } }
+        .grid-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 90%);
+            pointer-events: none;
+        }
+        .glowing-orb {
+            position: absolute; width: 700px; height: 700px; background: var(--accent-tertiary);
+            filter: blur(180px); opacity: 0.12; border-radius: 50%; top: -200px; left: -200px;
+            animation: orbMove 18s infinite alternate; z-index: -1;
+        }
+        @keyframes orbMove { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(15%, 10%) scale(1.2); } }
+
+        /* ========== HEADER ========== */
+        .site-header {
+            position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height);
+            padding: 0 5%; display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; transition: all 0.4s ease; background: transparent;
+        }
+        .site-header.scrolled {
+            height: var(--header-scrolled-height); background: rgba(5,5,17,0.85);
+            backdrop-filter: blur(18px) saturate(180%); border-bottom: 1px solid var(--border-light);
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.7);
+        }
+        .logo-wrapper { display: flex; align-items: center; gap: 15px; }
+        .logo-img { width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 0 8px rgba(247,37,133,0.5)); transition: var(--transition-smooth); }
+        .site-header:hover .logo-img { transform: rotate(-5deg) scale(1.05); }
+        .brand-name {
+            font-size: 1.6rem; font-weight: 800; font-family: var(--font-display);
+            background: linear-gradient(to right, #fff, #e0e0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255,255,255,0.2);
+        }
+        .brand-name span { background: var(--gradient-brand); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; }
+        .menu-btn {
+            display: none; background: rgba(255,255,255,0.05); border: 1px solid var(--border-light);
+            border-radius: 50px; width: 50px; height: 50px; font-size: 1.8rem; color: #fff;
+            cursor: pointer; backdrop-filter: blur(5px); transition: var(--transition-smooth);
+        }
+        .menu-btn:hover { background: var(--accent-primary); border-color: var(--accent-primary); box-shadow: 0 0 20px rgba(247,37,133,0.4); }
+        .nav-links { display: flex; align-items: center; gap: 30px; }
+        .nav-link {
+            color: var(--text-main); text-decoration: none; font-weight: 500; font-size: 1rem;
+            padding: 8px 0; position: relative; transition: color 0.3s;
+        }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+            background: var(--gradient-brand); transition: width 0.3s;
+        }
+        .nav-link:hover { color: var(--accent-primary); }
+        .nav-link:hover::after { width: 100%; }
+        .btn-outline {
+            padding: 10px 28px; border: 1.5px solid rgba(255,255,255,0.15); border-radius: 40px;
+            background: rgba(255,255,255,0.02); color: #fff; font-weight: 600;
+            transition: var(--transition-smooth); backdrop-filter: blur(4px);
+        }
+        .btn-outline:hover { background: var(--gradient-brand); border-color: transparent; box-shadow: 0 10px 25px rgba(247,37,133,0.3); transform: translateY(-2px); }
+        @media (max-width: 768px) {
+            .menu-btn { display: flex; align-items: center; justify-content: center; }
+            .nav-links {
+                position: fixed; top: 0; right: -100%; width: 80%; max-width: 350px; height: 100vh;
+                background: rgba(8, 8, 18, 0.98); backdrop-filter: blur(20px); flex-direction: column;
+                justify-content: center; gap: 35px; transition: right 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+                border-left: 1px solid rgba(255,255,255,0.1); box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+                z-index: 1001; padding: 40px 20px;
+            }
+            .nav-links.active { right: 0; }
+            .nav-link { font-size: 1.3rem; }
+            .btn-outline { width: 80%; text-align: center; padding: 15px; font-size: 1.2rem; }
+            body.menu-open { overflow: hidden; }
+        }
+
+        /* ========== HERO ========== */
+        .hero {
+            min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center; padding: 120px 20px 80px; position: relative;
+        }
+        .hero-badge {
+            display: inline-block; background: rgba(255,255,255,0.04); border: 1px solid rgba(247,37,133,0.3);
+            backdrop-filter: blur(5px); padding: 8px 20px; border-radius: 40px; font-size: 0.85rem;
+            font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-primary);
+            margin-bottom: 30px; box-shadow: 0 0 20px rgba(247,37,133,0.2);
+        }
+        .hero-title {
+            font-size: clamp(2.8rem, 12vw, 5.5rem); font-weight: 900; font-family: var(--font-display);
+            line-height: 1.1; margin-bottom: 25px; text-transform: uppercase;
+        }
+        .hero-title .gradient-text {
+            background: linear-gradient(135deg, #f8f0ff, #f72585, #b5179e);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-size: 200% auto;
+            animation: shine 3s linear infinite;
+        }
+        @keyframes shine { to { background-position: 200% center; } }
+        .hero-description { font-size: 1.2rem; color: var(--text-muted); max-width: 700px; margin-bottom: 40px; font-weight: 300; }
+        .btn-primary {
+            position: relative; padding: 18px 50px; background: var(--gradient-brand); border: none;
+            border-radius: 50px; color: #fff; font-weight: 700; font-size: 1.2rem; letter-spacing: 1.5px;
+            text-transform: uppercase; cursor: pointer; overflow: hidden; transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(247,37,133,0.4); z-index: 1;
+        }
+        .btn-primary::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s; z-index: -1;
+        }
+        .btn-primary:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 20px 40px rgba(247,37,133,0.5); }
+        .btn-primary:hover::before { left: 100%; }
+        .stats-grid { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; margin-top: 60px; }
+        .stat-item {
+            background: rgba(20,20,35,0.5); border: 1px solid var(--border-light); backdrop-filter: blur(10px);
+            padding: 20px 35px; border-radius: 16px; min-width: 130px;
+        }
+        .stat-num { font-size: 2.5rem; font-weight: 800; background: linear-gradient(to right, #fff, #d0d0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.2; }
+        .stat-label { font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+
+        /* ========== KUTUBXONA ========== */
+        .section { padding: 100px 5%; position: relative; z-index: 5; }
+        .section-header { text-align: center; margin-bottom: 70px; }
+        .section-sub { color: var(--accent-primary); font-size: 1rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 600; margin-bottom: 15px; }
+        .section-title { font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 800; font-family: var(--font-display); }
+        .cards-grid { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; }
+        .card {
+            width: 360px; background: var(--bg-card); backdrop-filter: blur(12px); border: 1px solid var(--border-light);
+            border-radius: 30px; padding: 40px 30px; transition: var(--transition-smooth); position: relative;
+            overflow: hidden; display: flex; flex-direction: column; align-items: center; text-align: center;
+            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.5);
+        }
+        .card::after {
+            content: ''; position: absolute; top: var(--y, 0); left: var(--x, 0); width: 150px; height: 150px;
+            background: radial-gradient(circle, rgba(247,37,133,0.3), transparent 70%); border-radius: 50%;
+            transform: translate(-50%, -50%); opacity: 0; transition: opacity 0.4s; pointer-events: none;
+        }
+        .card:hover::after { opacity: 0.8; }
+        .card:hover { transform: translateY(-15px); border-color: rgba(247,37,133,0.4); box-shadow: 0 30px 60px -15px rgba(247,37,133,0.3); }
+        .card-icon {
+            width: 90px; height: 90px; background: rgba(255,255,255,0.03); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--accent-primary);
+            border: 2px solid rgba(247,37,133,0.2); margin-bottom: 25px; transition: 0.3s;
+        }
+        .card:hover .card-icon { background: var(--gradient-brand); color: #fff; border-color: transparent; box-shadow: 0 0 30px rgba(247,37,133,0.6); }
+        .card h3 { font-size: 1.8rem; margin-bottom: 15px; }
+        .card p { color: var(--text-muted); margin-bottom: 30px; flex: 1; }
+        .card-btn {
+            width: 100%; padding: 15px 0; background: transparent; border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 50px; color: #fff; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+            transition: var(--transition-smooth); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .card-btn:hover { background: #fff; color: #000; border-color: #fff; gap: 15px; }
+
+        /* ========== FOOTER ========== */
+        .footer { background: #020208; padding: 100px 20px 60px; border-top: 1px solid rgba(255,255,255,0.03); position: relative; z-index: 5; }
+        .footer-content { max-width: 1200px; margin: 0 auto; text-align: center; }
+        .footer h2 { font-size: 2.5rem; margin-bottom: 20px; }
+        .social-links { display: flex; gap: 20px; justify-content: center; margin: 40px 0; }
+        .social-link {
+            width: 55px; height: 55px; background: rgba(255,255,255,0.03); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.5rem;
+            transition: 0.3s; border: 1px solid rgba(255,255,255,0.05);
+        }
+        .social-link:hover { background: var(--accent-primary); transform: translateY(-5px); }
+        .telegram-btn {
+            display: inline-flex; align-items: center; gap: 12px; background: #229ED9; color: #fff;
+            padding: 15px 45px; border-radius: 50px; font-weight: 700; font-size: 1.2rem;
+            transition: 0.3s; text-decoration: none;
+        }
+        .telegram-btn:hover { background: #1e8bc0; transform: scale(1.05); box-shadow: 0 20px 30px rgba(34,158,217,0.3); }
+
+        /* Utility */
+        .no-scroll { overflow: hidden; }
+        [data-aos] { pointer-events: none; }
+        [data-aos].aos-animate { pointer-events: auto; }
+        @media (max-width: 480px) {
+            .hero-title { font-size: 2.5rem; }
+            .btn-primary { width: 100%; }
+            .stat-item { padding: 15px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="grid-overlay"></div>
+    <div class="glowing-orb"></div>
+
+    <header class="site-header" id="mainHeader">
+        <div class="logo-wrapper">
+            <img src="logo.png" alt="Talabalar Karvoni" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <i class="fas fa-feather-alt" style="font-size:2rem; color:var(--accent-primary); display:none;"></i>
+            <div class="brand-name">Talabalar <span>Karvoni</span></div>
+        </div>
+        <button class="menu-btn" id="menuToggle" aria-label="Menyu"><i class="fas fa-bars"></i></button>
+        <nav class="nav-links" id="navLinks">
+            <a href="#library" class="nav-link" onclick="closeMobileMenu()">Kutubxona</a>
+            <a href="#contact" class="nav-link" onclick="closeMobileMenu()">Aloqa</a>
+            <a href="#" class="btn-outline" onclick="closeMobileMenu()">Kirish</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-badge" data-aos="fade-down">Namangan Davlat Universiteti</div>
+        <h1 class="hero-title" data-aos="zoom-in" data-aos-delay="100">
+            Ijod <span class="gradient-text">Chegarasiz</span><br>Kelajak Bu Yerda
+        </h1>
+        <p class="hero-description" data-aos="fade-up" data-aos-delay="200">
+            NamDU iqtidorli talabalarining elektron platformasi. Eng sara she'riy to'plamlar, ilmiy-ijodiy nashrlar va PDF kutubxona.
+        </p>
+        <button onclick="scrollToLibrary()" class="btn-primary" data-aos="fade-up" data-aos-delay="300">
+            <i class="fas fa-book-open" style="margin-right: 10px;"></i> Nashrlarni Ko'rish
+        </button>
+        <div class="stats-grid" data-aos="fade-up" data-aos-delay="400">
+            <div class="stat-item"><span class="stat-num">02</span><span class="stat-label">Nashrlar</span></div>
+            <div class="stat-item"><span class="stat-num">50+</span><span class="stat-label">Mualliflar</span></div>
+            <div class="stat-item"><span class="stat-num">∞</span><span class="stat-label">Ilhom</span></div>
+        </div>
+    </section>
+
+    <section id="library" class="section">
+        <div class="section-header" data-aos="fade-up">
+            <div class="section-sub">Kutubxona</div>
+            <h2 class="section-title">Nashr To'plamlari</h2>
+        </div>
+        <div class="cards-grid">
+            <div class="card" data-aos="fade-up" data-aos-delay="100"
+                 onmousemove="handleCardGlow(event)" onmouseleave="removeCardGlow(event)">
+                <div class="card-icon"><i class="fas fa-rocket"></i></div>
+                <h3>1-Nashr | 2026</h3>
+                <p>Ilk qaldirg'ochlar parvozi. Universitetning eng iqtidorli yoshlarining sara asarlari.</p>
+                <button class="card-btn" onclick="window.open('https://online.pubhtml5.com/iqgbt/bugj/', '_blank')">
+                    <span>O'qish</span> <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            <div class="card" data-aos="fade-up" data-aos-delay="200"
+                 onmousemove="handleCardGlow(event)" onmouseleave="removeCardGlow(event)">
+                <div class="card-icon"><i class="fas fa-fingerprint"></i></div>
+                <h3>2-Nashr | Bahor</h3>
+                <p>Yangilanish fasli nafasi ufurib turgan maxsus son. Vatanni madh etuvchi she'rlar to'plami.</p>
+                <button class="card-btn" onclick="window.open('https://online.pubhtml5.com/iqgbt/bugj/', '_blank')">
+                    <span>O'qish</span> <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="footer">
+        <div class="footer-content">
+            <h2 data-aos="fade-up">Ijodiy safga qo'shiling</h2>
+            <div class="social-links" data-aos="fade-up" data-aos-delay="100">
+                <a href="#" class="social-link"><i class="fab fa-telegram-plane"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+            </div>
+            <a href="https://t.me/NamDU_iqtidor" target="_blank" class="telegram-btn" data-aos="zoom-in">
+                <i class="fab fa-telegram-plane"></i> Kanalga obuna bo'lish
+            </a>
+            <p style="margin-top: 60px; color: #4a4a5a;">© 2026 Talabalar Karvoni. Barcha huquqlar himoyalangan.</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true, easing: 'ease-out-cubic' });
+
+        // Header scroll
+        const header = document.getElementById('mainHeader');
+        window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 30));
+
+        // Mobil menyu
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        const body = document.body;
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuToggle.innerHTML = navLinks.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            body.classList.toggle('no-scroll', navLinks.classList.contains('active'));
+        });
+        window.closeMobileMenu = () => {
+            navLinks.classList.remove('active');
+            menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            body.classList.remove('no-scroll');
+        };
+
+        window.scrollToLibrary = () => document.getElementById('library').scrollIntoView({ behavior: 'smooth' });
+
+        // Card glow
+        window.handleCardGlow = (e) => {
+            const card = e.currentTarget;
+            const rect = card.getBoundingClientRect();
+            card.style.setProperty('--x', (e.clientX - rect.left) + 'px');
+            card.style.setProperty('--y', (e.clientY - rect.top) + 'px');
+        };
+        window.removeCardGlow = (e) => {
+            e.currentTarget.style.setProperty('--x', '-100px');
+            e.currentTarget.style.setProperty('--y', '-100px');
+        };
+    </script>
+</body>
+</html>
